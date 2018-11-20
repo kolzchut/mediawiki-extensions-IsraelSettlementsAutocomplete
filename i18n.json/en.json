@@ -1,8 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"OPen Fox"
+			"Open Fox"
 		]
 	},
-	"apihelp-getisraelsettelments-summary": "Add autocomplete of Israeli settelments"
+	"apihelp-getisraelsettlements-summary": "Add autocomplete of Israeli settlements"
 }

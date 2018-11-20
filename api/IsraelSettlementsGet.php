@@ -11,7 +11,7 @@
  *
  * @author Yaron Koren
  */
-class IsraelSettelmentsGet extends ApiBase {
+class IsraelSettlementsGet extends ApiBase {
 
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName );
@@ -59,7 +59,7 @@ class IsraelSettelmentsGet extends ApiBase {
 
 	protected function getExamples() {
 		return array(
-			'api.phpaction=getisraelsettelments&term=ירו',
+			'action=getisraelsettlements&term=ירו',
 		);
 	}
 
@@ -69,7 +69,7 @@ class IsraelSettelmentsGet extends ApiBase {
 
 	private static function getAllValues(  ) {
 		$base = dirname(__FILE__);
-		$csvString = file_get_contents("$base/../inc/settelments.csv");
+		$csvString = file_get_contents("$base/../inc/settlements.csv");
 		$csvArray = str_getcsv($csvString, "\n"); //parse the rows 
 		foreach($csvArray as &$row) $row = str_getcsv($row, ","); //parse the items in rows 
 		return array_column($csvArray, '2');
