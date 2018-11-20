@@ -1,0 +1,18 @@
+{
+
+	"name": "IsraelSettelmentsAutocomplete",
+	"author": ["OpenFox", "Itschak Krumbein"],
+	"url": "https://www.mediawiki.org/wiki/Extension:IsraelSettelmentsAutocompletes",
+	"description": "Add autocomplete of Israel settelemnts",
+	"version": "1.5",
+	"license-name": "MIT",
+	"type": "api",
+	"APIModules": {
+		"getisraelsettelments": "IsraelSettelmentsGet"
+	},
+	"AutoloadClasses": {
+		"IsraelSettelmentsGet": "api/IsraelSettelmentsGet.php"
+	},
+	"manifest_version": 1
+}
+
