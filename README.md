@@ -1,4 +1,6 @@
-To enable the extesion you need two lines ```
+To enable the extesion you need two lines 
+
+```
 wfLoadExtension( 'IsraelsettlementsAutocomplete' );
 $wgPageFormsAutocompletionURLs['israelsettlements'] = 'URL_TO_API_ENDPOINT?action=getisraelsettlements&term=<substr>&format=json';
 ```
