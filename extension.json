@@ -3,7 +3,7 @@
 	"name": "IsraelSettlementsAutocomplete",
 	"author": ["OpenFox", "Itschak Krumbein"],
 	"url": "https://www.mediawiki.org/wiki/Extension:IsraelSettlementsAutocompletes",
-	"description": "Add autocomplete of Israel settelemnts",
+	"description": "apihelp-getisraelsettlements-summary",
 	"version": "1.5",
 	"license-name": "MIT",
 	"type": "api",

@@ -67,7 +67,7 @@ class IsraelSettlementsGet extends ApiBase {
 		return __CLASS__ . ': $Id$';
 	}
 
-	private static function getAllValues(  ) {
+	public static function getAllValues(  ) {
 		$base = dirname(__FILE__);
 		$csvString = file_get_contents("$base/../inc/settlements.csv");
 		$csvArray = str_getcsv($csvString, "\n"); //parse the rows 
