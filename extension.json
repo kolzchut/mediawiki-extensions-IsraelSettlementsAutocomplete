@@ -8,7 +8,8 @@
 	"license-name": "MIT",
 	"type": "api",
 	"APIModules": {
-		"getisraelsettlements": "IsraelSettlementsGet"
+		"getisraelsettlements": "IsraelSettlementsGet",
+		"israelsettlementsgetsettlementsperzone": "IsraelSettlementsGetSettlementsPerZone"
 	},
 	"MessagesDirs": {
 		"IsraelSettelmentsAutocomplete": [
@@ -16,7 +17,9 @@
 		]
 	},
 	"AutoloadClasses": {
-		"IsraelSettlementsGet": "api/IsraelSettlementsGet.php"
+		"IsraelSettlementsBase": "api/IsraelSettlementsBase.php",
+		"IsraelSettlementsGet": "api/IsraelSettlementsGet.php",
+		"IsraelSettlementsGetSettlementsPerZone": "api/IsraelSettlementsGetSettlementsPerZone.php"
 	},
 	"manifest_version": 1
 }

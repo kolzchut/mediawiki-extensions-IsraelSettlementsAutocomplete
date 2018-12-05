@@ -1,17 +1,17 @@
 <?php
 /**
  * @file
- * @ingroup Cargo
+ * @ingroup Openfox
  */
 
 /**
- * Adds the 'cargoautocomplete' action to the MediaWiki API.
+ * Adds the 'getisraelsettlements' action to the MediaWiki API.
  *
  * @ingroup Cargo
  *
- * @author Yaron Koren
+ * @author Openfox and Yizchak krumbein
  */
-class IsraelSettlementsGet extends ApiBase {
+class IsraelSettlementsGet extends IsraelSettlementsBase {
 
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName );
@@ -20,36 +20,25 @@ class IsraelSettlementsGet extends ApiBase {
 	public function execute() {
 		$params = $this->extractRequestParams();
 		
+		$data = self::getAllSettlements();
 		// if ( $templateStr == '' ) {
-		// 	CargoUtils::dieWithError( $this, 'The template must be specified', 'param_substr' );
+		// 	CargoUtils::dieWithError( $this, print_r($data,1), 'param_substr' );
 		// }
-		$data = self::getAllValues();
-		$data2 = self::getAtt();
-		// $data_filtered = [];
-		// //echo $params['term'] . '</br>';
-		// foreach ($data as $part) {
-		// 	if(strpos($part, $params['term']) !== FALSE){
-		// 		$data_filtered[] = ['title' => $part];
-		// 	}
+		$data_filtered = [];
+		//echo $params['term'] . '</br>';
+		foreach ($data as $part) {
+			if(strpos($part, $params['term']) !== FALSE){
+				$data_filtered[] = ['title' => $part];
+			}
 
-		// }
+		}
 
 		//die();
 		// Set top-level elements.
 		$result = $this->getResult();
-		$all = self::arrayDiff($data2, $data);
-		sort($data);
-		sort($data2);
-		sort($all);
 		//die(print_r($params));
 		$result->setIndexedTagName( $params, 'p' );
-		$result->addValue( null, 'pfautocomplete', [
-			'in_old_but_not_in_new' => array_diff($data, $data2),
-			'in_new_but_not_in_old' => array_diff($data2, $data),
-			'in_new_but_not_in_oboold' => $all,
-			'new' => $data2,
-			'old' => $data,
-			] );
+		$result->addValue( null, 'pfautocomplete', $data_filtered );
 	}
 
 	protected function getAllowedParams() {
@@ -77,42 +66,8 @@ class IsraelSettlementsGet extends ApiBase {
 	public function getVersion() {
 		return __CLASS__ . ': $Id$';
 	}
-
-	public static function arrayDiff($A, $B) {
-	    $intersect = array_intersect($A, $B);
-	    return array_merge(array_diff($A, $intersect), array_diff($B, $intersect));
-	}
-	public static function getAtt(  ) {
-		$csvArray = IsraelSettlementsGet::csvFileToArray('../inc/center_to_setlements.csv');
-		$allNames = [];
-		$new_arr = [];
-		foreach($csvArray as &$row){
-			$key = array_shift($row);
-			$vals = explode(',', $row[0]);
-			foreach($vals as &$val) $val = trim($val);
-			//$row = [];
-			//array_push($allNames, $key);
-			$allNames = array_merge($allNames, $vals);
-			//$new_arr[$key] = $vals;
-		}
-		return array_values(array_unique($allNames));
-	}
-	public static function getAllValues(  ) {
-		$csvArray = IsraelSettlementsGet::csvFileToArray('../inc/settlements.csv');
-		// $base = dirname(__FILE__);
-		// $csvString = file_get_contents("$base/../inc/settlements.csv");
-		// $csvArray = str_getcsv($csvString, "\n"); //parse the rows 
-		// foreach($csvArray as &$row) $row = str_getcsv($row, ","); //parse the items in rows 
-		$sets = array_column($csvArray, '2');
-		foreach($sets as &$set) $set = trim($set);
-		return $sets;
-	}
-	public static function csvFileToArray( $path ) {
-		$base = dirname(__FILE__);
-		$csvString = file_get_contents("$base/$path");
-		$csvArray = str_getcsv($csvString, "\n"); //parse the rows 
-		foreach($csvArray as &$row) $row = str_getcsv($row, ","); //parse the items in rows 
-		return $csvArray;
+	public static function getAllSettlements(  ) {
+		return array_column(self::getAllData(),'1');
 	}
 
 }
