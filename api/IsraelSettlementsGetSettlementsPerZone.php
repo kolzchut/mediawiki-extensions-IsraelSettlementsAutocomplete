@@ -16,19 +16,14 @@ class IsraelSettlementsGetSettlementsPerZone extends IsraelSettlementsBase {
 	static $zoneNameColumn;
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName );
-		self::$settelmentNameColumn = '1';
-		self::$zoneNameColumn = '8';
+		self::$settelmentNameColumn = 1;
+		self::$zoneNameColumn = 8;
 	}
 
 	public function execute() {
 		$params = $this->extractRequestParams();
 		$result = $this->getResult();
-		$result->addValue( null, 'pfautocomplete', [
-			'getSettelmentsPerSettelment' => self::getSettelmentsPerSettelment($params['settelment']),
-			'getZonePerSettelment' => self::getZonePerSettelment($params['settelment']),
-			'settelment' => $params['settelment'],
-			'getZonesPerSettelments' => self::getZonesPerSettelments(),
-			] );
+		$result->addValue( null, 'settlementsPerZone', self::getSettelmentsPerSettelmentOrZone($params['settelment']));
 	}
 
 	protected function getAllowedParams() {
@@ -78,7 +73,7 @@ class IsraelSettlementsGetSettlementsPerZone extends IsraelSettlementsBase {
 	}
 	public static function getAllSettelments(  ) {
 		$csvArray = self::getAllData();
-		$sets = array_unique(array_column($csvArray, self::$settelmentNameColumn));
+		$sets = array_unique(array_column((string)$csvArray, self::$settelmentNameColumn));
 		foreach($sets as &$set) $set = trim($set);
 		return $sets;
 	}
@@ -102,7 +97,7 @@ class IsraelSettlementsGetSettlementsPerZone extends IsraelSettlementsBase {
 			$zone = isset($row[self::$zoneNameColumn]) && $row[self::$zoneNameColumn] ? $row[self::$zoneNameColumn] : $row[self::$zoneNameColumn - 2];;
 			$settelment = $row[self::$settelmentNameColumn];
 			
-			$settelments[$settelment] = $zone;
+			$settelments[$settelment] = $zone;// . implode('_', [$row[self::$zoneNameColumn],$row[self::$zoneNameColumn-2]]);
 		} 
 		
 		return $settelments;
@@ -111,8 +106,10 @@ class IsraelSettlementsGetSettlementsPerZone extends IsraelSettlementsBase {
 		$zonesPerSettelments = self::getZonesPerSettelments();
 		return isset($zonesPerSettelments[$settelment]) ? $zonesPerSettelments[$settelment] : '';
 	}	
-	public static function getSettelmentsPerSettelment( $settelment ) {
+	public static function getSettelmentsPerSettelmentOrZone( $settelment ) {
 		$zone = self::getZonePerSettelment($settelment);
+		//colud send also zone name
+		$zone = $zone ? $zone : trim(preg_replace('/מועצה אזורית/','',$settelment));
 		$settelmentsPerZone = self::getSettelmentsPerZone();
 		return $zone && isset($settelmentsPerZone[$zone]) ? $settelmentsPerZone[$zone] : '';
 	}
