@@ -38,7 +38,7 @@ class IsraelSettlementsGet extends IsraelSettlementsBase {
 		$result = $this->getResult();
 		//die(print_r($params));
 		$result->setIndexedTagName( $params, 'p' );
-		$result->addValue( null, 'pfautocomplete', $data_filtered );
+		$result->addValue( null, 'pfautocomplete', 'all' == $params['term'] ? $data : $data_filtered );
 	}
 
 	protected function getAllowedParams() {
