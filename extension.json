@@ -9,7 +9,8 @@
 	"type": "api",
 	"APIModules": {
 		"getisraelsettlements": "IsraelSettlementsGet",
-		"israelsettlementsgetsettlementsperzone": "IsraelSettlementsGetSettlementsPerZone"
+		"israelsettlementsgetsettlementsperzone": "IsraelSettlementsGetSettlementsPerZone",
+		"israelsettlementsgetsettlementsandpopulation": "IsraelSettlementsGetSettlementsAndPopulation"
 	},
 	"MessagesDirs": {
 		"IsraelSettelmentsAutocomplete": [
@@ -19,7 +20,8 @@
 	"AutoloadClasses": {
 		"IsraelSettlementsBase": "api/IsraelSettlementsBase.php",
 		"IsraelSettlementsGet": "api/IsraelSettlementsGet.php",
-		"IsraelSettlementsGetSettlementsPerZone": "api/IsraelSettlementsGetSettlementsPerZone.php"
+		"IsraelSettlementsGetSettlementsPerZone": "api/IsraelSettlementsGetSettlementsPerZone.php",
+		"IsraelSettlementsGetSettlementsAndPopulation": "api/IsraelSettlementsGetSettlementsAndPopulation.php"
 	},
 	"manifest_version": 1
 }
