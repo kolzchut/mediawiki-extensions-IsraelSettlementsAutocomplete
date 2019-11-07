@@ -16,8 +16,7 @@ class IsraelSettlementsGetSettlementsPerZone extends IsraelSettlementsBase {
 	static $zoneNameColumn;
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName );
-		self::$settelmentNameColumn = 1;
-		self::$zoneNameColumn = 8;
+		self::init();
 	}
 
 	public function execute() {
@@ -55,6 +54,10 @@ class IsraelSettlementsGetSettlementsPerZone extends IsraelSettlementsBase {
 	public static function arrayDiff($A, $B) {
 	    $intersect = array_intersect($A, $B);
 	    return array_merge(array_diff($A, $intersect), array_diff($B, $intersect));
+	}
+	public static function init() {
+	    self::$settelmentNameColumn = 1;
+		self::$zoneNameColumn = 8;
 	}
 	public static function getAtt(  ) {
 		$csvArray = IsraelSettlementsGet::csvFileToArray('../inc/center_to_setlements.csv');
@@ -108,9 +111,10 @@ class IsraelSettlementsGetSettlementsPerZone extends IsraelSettlementsBase {
 	}	
 	public static function getSettelmentsPerSettelmentOrZone( $settelment ) {
 		$zone = self::getZonePerSettelment($settelment);
-		//colud send also zone name
+		//could send also zone name
 		$zone = $zone ? $zone : trim(preg_replace('/מועצה אזורית/','',$settelment));
 		$settelmentsPerZone = self::getSettelmentsPerZone();
+		//die( print_r([$zone,$settelment,$settelmentsPerZone[$zone]]));
 		return $zone && isset($settelmentsPerZone[$zone]) ? $settelmentsPerZone[$zone] : '';
 	}
 	
