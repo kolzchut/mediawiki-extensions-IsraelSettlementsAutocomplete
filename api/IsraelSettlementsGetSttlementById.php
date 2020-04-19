@@ -65,9 +65,9 @@ class IsraelSettlementsGetSttlementById extends IsraelSettlementsBase {
 			return (int) $id === (int) $part[0];
 		});
 		$settlement = array_pop($data);
-		//add settelments
+		//add settlements
 		IsraelSettlementsGetSettlementsPerZone::init();
-		$settlement[] = IsraelSettlementsGetSettlementsPerZone::getSettelmentsPerSettelmentOrZone( $settlement[1] );
+		$settlement[] = IsraelSettlementsGetSettlementsPerZone::getSettlementsPerSettlementOrZone( $settlement[1] );
 		return $settlement;
 	}
 

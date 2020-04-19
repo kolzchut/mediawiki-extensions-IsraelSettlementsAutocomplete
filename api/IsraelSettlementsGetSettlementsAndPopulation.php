@@ -12,11 +12,11 @@
  * @author Openfox and Yizchak krumbein
  */
 class IsraelSettlementsGetSettlementsAndPopulation extends IsraelSettlementsBase {
-	static $settelmentNameColumn;
+	static $settlementNameColumn;
 	static $zoneNameColumn;
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName );
-		self::$settelmentNameColumn = 1;
+		self::$settlementNameColumn = 1;
 		self::$zoneNameColumn = 9;
 	}
 
@@ -24,16 +24,16 @@ class IsraelSettlementsGetSettlementsAndPopulation extends IsraelSettlementsBase
 		$params = $this->extractRequestParams();
 		$result = $this->getResult();
 		
-		$result->addValue( null, 'settlementsAndPopulation', self::getSettelmentsAndPopulation( ) );
+		$result->addValue( null, 'settlementsAndPopulation', self::getSettlementsAndPopulation( ) );
 	}
 
-	protected function getSettelmentsAndPopulation() {
+	protected function getSettlementsAndPopulation() {
 		$allData = self::getAllData();
-		$settelmentsAndPopulation =[];
+		$settlementsAndPopulation =[];
 		foreach ($allData as $dataPart) {
-			$settelmentsAndPopulation[ $dataPart[ self::$settelmentNameColumn] ] = $dataPart[ self::$zoneNameColumn ];
+			$settlementsAndPopulation[ $dataPart[ self::$settlementNameColumn] ] = $dataPart[ self::$zoneNameColumn ];
 		}
-		return $settelmentsAndPopulation;
+		return $settlementsAndPopulation;
 	}
 	protected function getAllowedParams() {
 		return array(

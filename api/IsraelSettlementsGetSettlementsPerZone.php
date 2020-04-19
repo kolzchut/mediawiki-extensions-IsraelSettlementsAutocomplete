@@ -12,7 +12,7 @@
  * @author Openfox and Yizchak krumbein
  */
 class IsraelSettlementsGetSettlementsPerZone extends IsraelSettlementsBase {
-	static $settelmentNameColumn;
+	static $settlementNameColumn;
 	static $zoneNameColumn;
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName );
@@ -22,28 +22,28 @@ class IsraelSettlementsGetSettlementsPerZone extends IsraelSettlementsBase {
 	public function execute() {
 		$params = $this->extractRequestParams();
 		$result = $this->getResult();
-		$result->addValue( null, 'settlementsPerZone', self::getSettelmentsPerSettelmentOrZone($params['settelment']));
+		$result->addValue( null, 'settlementsPerZone', self::getSettlementsPerSettlementOrZone($params['settlement']));
 	}
 
 	protected function getAllowedParams() {
 		return array(
-			'settelment' => null,
+			'settlement' => null,
 		);
 	}
 
 	protected function getParamDescription() {
 		return array(
-			'settelment' => 'Settelment in zone',
+			'settlement' => 'Settlement in zone',
 		);
 	}
 
 	protected function getDescription() {
-		return 'Returns list of israeli settlements includes settelment string';
+		return 'Returns list of israeli settlements includes settlement string';
 	}
 
 	protected function getExamples() {
 		return array(
-			'action=israelsettlementsgetsettlementsperzone&settelment=יריחו',
+			'action=israelsettlementsgetsettlementsperzone&settlement=יריחו',
 		);
 	}
 
@@ -56,7 +56,7 @@ class IsraelSettlementsGetSettlementsPerZone extends IsraelSettlementsBase {
 	    return array_merge(array_diff($A, $intersect), array_diff($B, $intersect));
 	}
 	public static function init() {
-	    self::$settelmentNameColumn = 1;
+	    self::$settlementNameColumn = 1;
 		self::$zoneNameColumn = 8;
 	}
 	public static function getAtt(  ) {
@@ -74,13 +74,13 @@ class IsraelSettlementsGetSettlementsPerZone extends IsraelSettlementsBase {
 		}
 		return array_values(array_unique($allNames));
 	}
-	public static function getAllSettelments(  ) {
+	public static function getAllSettlements(  ) {
 		$csvArray = self::getAllData();
-		$sets = array_unique(array_column((string)$csvArray, self::$settelmentNameColumn));
+		$sets = array_unique(array_column((string)$csvArray, self::$settlementNameColumn));
 		foreach($sets as &$set) $set = trim($set);
 		return $sets;
 	}
-	public static function getSettelmentsPerZone(  ) {
+	public static function getSettlementsPerZone(  ) {
 		$csvArray = self::getAllData();
 		$zones = [];
 		foreach($csvArray as &$row){
@@ -88,34 +88,34 @@ class IsraelSettlementsGetSettlementsPerZone extends IsraelSettlementsBase {
 			if(!isset($zones[$zone])){
 				$zones[$zone] = [];
 			}
-			$zones[$zone][] = $row[self::$settelmentNameColumn];
+			$zones[$zone][] = $row[self::$settlementNameColumn];
 		} 
 		
 		return $zones;
 	}
-	public static function getZonesPerSettelments(  ) {
+	public static function getZonesPerSettlements(  ) {
 		$csvArray = self::getAllData();
-		$settelments = [];
+		$settlements = [];
 		foreach($csvArray as &$row){
 			$zone = isset($row[self::$zoneNameColumn]) && $row[self::$zoneNameColumn] ? $row[self::$zoneNameColumn] : $row[self::$zoneNameColumn - 2];;
-			$settelment = $row[self::$settelmentNameColumn];
+			$settlement = $row[self::$settlementNameColumn];
 			
-			$settelments[$settelment] = $zone;// . implode('_', [$row[self::$zoneNameColumn],$row[self::$zoneNameColumn-2]]);
+			$settlements[$settlement] = $zone;// . implode('_', [$row[self::$zoneNameColumn],$row[self::$zoneNameColumn-2]]);
 		} 
 		
-		return $settelments;
+		return $settlements;
 	}
-	public static function getZonePerSettelment( $settelment ) {
-		$zonesPerSettelments = self::getZonesPerSettelments();
-		return isset($zonesPerSettelments[$settelment]) ? $zonesPerSettelments[$settelment] : '';
+	public static function getZonePerSettlement( $settlement ) {
+		$zonesPerSettlements = self::getZonesPerSettlements();
+		return isset($zonesPerSettlements[$settlement]) ? $zonesPerSettlements[$settlement] : '';
 	}	
-	public static function getSettelmentsPerSettelmentOrZone( $settelment ) {
-		$zone = self::getZonePerSettelment($settelment);
+	public static function getSettlementsPerSettlementOrZone( $settlement ) {
+		$zone = self::getZonePerSettlement($settlement);
 		//could send also zone name
-		$zone = $zone ? $zone : trim(preg_replace('/מועצה אזורית/','',$settelment));
-		$settelmentsPerZone = self::getSettelmentsPerZone();
-		//die( print_r([$zone,$settelment,$settelmentsPerZone[$zone]]));
-		return $zone && isset($settelmentsPerZone[$zone]) ? $settelmentsPerZone[$zone] : '';
+		$zone = $zone ? $zone : trim(preg_replace('/מועצה אזורית/','',$settlement));
+		$settlementsPerZone = self::getSettlementsPerZone();
+		//die( print_r([$zone,$settlement,$settlementsPerZone[$zone]]));
+		return $zone && isset($settlementsPerZone[$zone]) ? $settlementsPerZone[$zone] : '';
 	}
 	
 
